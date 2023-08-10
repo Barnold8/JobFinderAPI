@@ -74,22 +74,26 @@ class Link:
         return f"{self.protocol}://www.{self.domain}.{self.tl_domain}/{''.join(self.params)}"
 
 class JobSite:
+    
+    # self note, depth will be in the actual website class 
+    # so the website class can handle button clicks 
+
+    WAIT_TIMER = 15
 
     def __init__(self) -> None:
         self.browser =  webdriver.Chrome()
 
     def makeRequest(self,href: Link, title:str,tag:str) -> None:
-
-        
-        # self note, depth will be in the actual website class 
-            # so the website class can handle button clicks 
         
         self.browser.get(href.complete())
         
-        WebDriverWait(self.browser,15).until(lambda driver: title in driver.title )
+        WebDriverWait(self.browser,JobSite.WAIT_TIMER).until(lambda driver: title in driver.title )
 
-        return self.browser.find_element(By.TAG_NAME,tag).get_attribute("outerHTML")
+        return self.browser.find_element(By.TAG_NAME,tag)
 
+    def grabSource(self,href: Link, title:str,tag:str):
+        return self.makeRequest(href,title,tag).get_attribute("outerHTML")
+    
 
 
     def quit(self)-> None:
