@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+
 class Link:
 
     def __init__(self,protocol:str,domain:str,tl_domain:str,params:list[str]) -> None:
@@ -79,7 +80,7 @@ class JobSite:
     def makeRequest(self,href: Link, depth: int) -> None:
         
         self.browser.get(href.complete())
-
+        
         pass
 
     def quit(self)-> None:
