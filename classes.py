@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class Link:
 
@@ -77,11 +78,19 @@ class JobSite:
     def __init__(self) -> None:
         self.browser =  webdriver.Chrome()
 
-    def makeRequest(self,href: Link, depth: int) -> None:
+    def makeRequest(self,href: Link, title:str,tag:str) -> None:
+
+        
+        # self note, depth will be in the actual website class 
+            # so the website class can handle button clicks 
         
         self.browser.get(href.complete())
         
-        pass
+        WebDriverWait(self.browser,15).until(lambda driver: title in driver.title )
+
+        return self.browser.find_element(By.TAG_NAME,tag).get_attribute("outerHTML")
+
+
 
     def quit(self)-> None:
         self.browser.quit()
