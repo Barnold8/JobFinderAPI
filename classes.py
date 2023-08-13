@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.remote.webelement import WebElement
 
 class Link:
 
@@ -83,12 +84,29 @@ class JobSite:
     def __init__(self) -> None:
         self.browser =  webdriver.Chrome()
 
-    def makeRequest(self,href: Link, title:str,tag:str) -> None:
+    def makeRequest(self,href: Link, title:str,tag:str) -> WebElement:
+        """
+        @author: Barnold8
+
+        :href: A Link object to work with the browser "get" function. 
+               (The complete method is used to pass a string to the 
+               get function)
+
+        :title: The title parameter is used to ensure that the webpage
+                has loaded. This is done by making the webdriver 
+                wait until the tab title includes the title parameter
+
+        :tag:   Tag is used to configure what tag we are looking at on the 
+                webpage. This makes it so you can choose the body, the head
+                or alternatively you can pick html and get the entire source
+
+        :return: This function returns a WebElement object. 
         
+        """
         self.browser.get(href.complete())
         
         WebDriverWait(self.browser,JobSite.WAIT_TIMER).until(lambda driver: title in driver.title )
-
+        print(type(self.browser))
         return self.browser.find_element(By.TAG_NAME,tag)
 
     def grabSource(self,href: Link, title:str,tag:str):
