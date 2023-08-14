@@ -114,7 +114,7 @@ class JobSite:
         href.URL_encode()
         self.browser.get(href.complete())
         
-        WebDriverWait(self.browser,JobSite.WAIT_TIMER).until(lambda driver: title in driver.title )
+        WebDriverWait(self.browser,JobSite.WAIT_TIMER).until(lambda driver: title in driver.title.lower() )
 
         return self.browser.find_element(By.TAG_NAME,tag)
 
@@ -128,6 +128,14 @@ class JobSite:
         self.browser.quit()
 
 
+class Indeed(JobSite):
+
+    def __init__(self,site_params) -> None:
+        super().__init__()
+        self.link = Link("https","indeed","com",site_params)
+        self.website = self.makeRequest(self.link,"indeed","body")
+        self.grabPages(1)
+        
 
 
 
