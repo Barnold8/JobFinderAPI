@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
 import undetected_chromedriver as uc 
 import time
-
+import os
 
 class Link:
 
@@ -134,9 +134,27 @@ class Indeed(JobSite):
         super().__init__()
         self.link = Link("https","indeed","com",site_params)
         self.website = self.makeRequest(self.link,"indeed","body")
-        self.grabPages(1)
-        
+        print(self.grabPages(1))
 
+    def grabPages(self, pages: int) -> list[dict]:
+        job_data = []
+        page = 1
+
+        if pages <= 1:
+            jobs = self.website.find_elements(By.CLASS_NAME, "cardOutline ")
+            for job in jobs:
+                try:
+                    parsed_job = {
+                        "name": job.find_element(By.TAG_NAME, 'span').get_attribute('title'),
+                        "company": job.find_element(By.CLASS_NAME, 'companyName').get_attribute('innerText'),
+                        "location": job.find_element(By.CLASS_NAME, 'companyLocation').get_attribute('innerText'),
+                        "link": job.find_element(By.TAG_NAME, 'a').get_attribute('href')
+                    }
+                    job_data.append(parsed_job)
+                except Exception:
+                    pass # ignore errors - Its because they are most likely related to an element being non existant, thus we can use this to ignore that.
+
+        return job_data
 
 
 
