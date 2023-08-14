@@ -118,9 +118,15 @@ class JobSite:
 
         return self.browser.find_element(By.TAG_NAME,tag)
 
+    def grabPages(self,pages:int)-> list[WebElement]:
+        raise NotImplementedError
+
     def grabSource(self,href: Link, title:str,tag:str):
         return self.makeRequest(href,title,tag).get_attribute("outerHTML")
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 
     def quit(self)-> None:
         self.browser.quit()
