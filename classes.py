@@ -134,13 +134,14 @@ class Indeed(JobSite):
         super().__init__()
         self.link = Link("https","indeed","com",site_params)
         self.website = self.makeRequest(self.link,"indeed","body")
-        print(self.grabPages(1))
+
 
     def grabPages(self, pages: int) -> list[dict]:
         job_data = []
         page = 1
 
-        if pages <= 1:
+        self.link.params.append("")
+        while page <= pages:
             jobs = self.website.find_elements(By.CLASS_NAME, "cardOutline ")
             for job in jobs:
                 try:
@@ -153,6 +154,11 @@ class Indeed(JobSite):
                     job_data.append(parsed_job)
                 except Exception:
                     pass # ignore errors - Its because they are most likely related to an element being non existant, thus we can use this to ignore that.
+            
+            page += 1
+            self.link.params[len(self.link.params)-1] = f"&start={(page-1)*10}"
+            self.link.URL_encode()
+            self.website = self.makeRequest(self.link,"indeed","body")
 
         return job_data
 
