@@ -115,8 +115,7 @@ class JobSite:
         self.browser.get(href.complete())
         
         WebDriverWait(self.browser,JobSite.WAIT_TIMER).until(lambda driver: title in driver.title )
-        time.sleep(25)
-        print(type(self.browser))
+
         return self.browser.find_element(By.TAG_NAME,tag)
 
     def grabSource(self,href: Link, title:str,tag:str):
