@@ -3,6 +3,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
+import undetected_chromedriver as uc 
+import time
+
 
 class Link:
 
@@ -82,7 +85,10 @@ class JobSite:
     WAIT_TIMER = 15
 
     def __init__(self) -> None:
-        self.browser =  webdriver.Chrome()
+
+        options = uc.ChromeOptions() 
+        # options.headless = True 
+        self.browser = uc.Chrome(use_subprocess=True, options=options)
 
     def makeRequest(self,href: Link, title:str,tag:str) -> WebElement:
         """
@@ -103,9 +109,11 @@ class JobSite:
         :return: This function returns a WebElement object. 
         
         """
+       
         self.browser.get(href.complete())
         
         WebDriverWait(self.browser,JobSite.WAIT_TIMER).until(lambda driver: title in driver.title )
+        time.sleep(25)
         print(type(self.browser))
         return self.browser.find_element(By.TAG_NAME,tag)
 
