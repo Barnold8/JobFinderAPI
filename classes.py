@@ -94,7 +94,9 @@ class JobSite:
 
         :title: The title parameter is used to ensure that the webpage
                 has loaded. This is done by making the webdriver 
-                wait until the tab title includes the title parameter
+                wait until the tab title includes the title parameter.
+                The title given can even be a sub string of the actual full
+                title, stopping ambiguity in its track with website title names.
 
         :tag:   Tag is used to configure what tag we are looking at on the 
                 webpage. This makes it so you can choose the body, the head
