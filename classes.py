@@ -111,7 +111,7 @@ class JobSite:
         :return: This function returns a WebElement object. 
         
         """
-       
+        href.URL_encode()
         self.browser.get(href.complete())
         
         WebDriverWait(self.browser,JobSite.WAIT_TIMER).until(lambda driver: title in driver.title )
