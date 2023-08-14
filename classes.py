@@ -120,14 +120,15 @@ class JobSite:
 
     def grabSource(self,href: Link, title:str,tag:str):
         return self.makeRequest(href,title,tag).get_attribute("outerHTML")
-    
 
 
     def quit(self)-> None:
         self.browser.quit()
 
 
-
+class Indeed(JobSite):
+    def __init__(self) -> None:
+        super().__init__()
 
 
 
