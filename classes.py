@@ -127,11 +127,12 @@ class JobSite:
 
 
 class Indeed(JobSite):
+    
     def __init__(self,site_params: list[str]) -> None:
         super().__init__()
         self.link = Link("https","indeed","com",site_params)
         self.website = self.makeRequest(self.link, "indeed","body")
-        self.quit()
-
+        time.sleep(15)
+    
 
 
