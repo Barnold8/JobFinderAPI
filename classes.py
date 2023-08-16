@@ -214,5 +214,7 @@ class Indeed(JobSite):
 
         return job_data
 
+class TotalJobs(JobSite):
 
-
+    def __init__(self) -> None:
+        super().__init__()
