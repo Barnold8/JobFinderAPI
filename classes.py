@@ -4,16 +4,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
 import undetected_chromedriver as uc 
-import time
-import os
 
 class Link:
 
     def __init__(self,protocol:str,domain:str,tl_domain:str,params:list[str]) -> None:
         """
        @author    : Barnold8
-
-       Link class constructor
 
        :protocol: This is used to specify the section of the web address for what protocol
                   we are using. In this API, it is more often than not going to be HTTPS.
@@ -93,6 +89,13 @@ class JobSite:
     def makeRequest(self,href: Link, title:str,tag:str) -> WebElement:
         """
         @author: Barnold8
+        
+        makeRequest works by encoding the given link and then
+        using the selenium library to make a GET request to 
+        a website. WebDriverWait is used to ensure the site 
+        is loaded before grabbing data from the page. 
+        This is ensured by checking the passed in title is 
+        a substring of the actual website title. 
 
         :href: A Link object to work with the browser "get" function. 
                (The complete method is used to pass a string to the 
@@ -108,7 +111,9 @@ class JobSite:
                 webpage. This makes it so you can choose the body, the head
                 or alternatively you can pick html and get the entire source
 
-        :return: This function returns a WebElement object. 
+        :return: This function returns a WebElement object. This is specified
+        to one of the core tags on the page like the body or the head. 
+        Alternatively you can pick the html tag to get the entire source
         
         """
         href.URL_encode()
@@ -119,12 +124,47 @@ class JobSite:
         return self.browser.find_element(By.TAG_NAME,tag)
 
     def grabPages(self,pages:int)-> list[WebElement]:
+        """
+        @author: Barnold8
+        
+        grabPages takes an amount of pages and returns a list of pages to
+        process. 
+
+        :pages: The amount of pages to grab. 
+
+        :return: NotImplementedError - Forces subclasses to 
+        implement their own solution as to make the developer
+        (me) make the code work as needed for grabbing pages off of
+        websites.
+
+        """
         raise NotImplementedError
 
     def grabSource(self,href: Link, title:str,tag:str):
+        """
+        @author: Barnold8
+        
+        grabSource works like grabPages but it returns the literal
+        HTML instead of a webElement object. It also only returns one 
+        value rather than a list. 
+
+        :pages: The amount of pages to grab. 
+
+        :return: Returns a list of WebElements which allows for 
+        processing on specific components of web pages.
+        
+        """
         return self.makeRequest(href,title,tag).get_attribute("outerHTML")
     
     def quit(self)-> None:
+        """
+        @author: Barnold8
+
+        Closes the browser instance
+
+        :return: None
+        
+        """
         self.browser.quit()
 
 
@@ -137,6 +177,18 @@ class Indeed(JobSite):
 
 
     def grabPages(self, pages: int) -> list[dict]:
+        """
+        @author: Barnold8
+        
+        grabPages takes an amount of pages and returns a list of pages to
+        process. 
+
+        :pages: The amount of pages to grab. 
+
+        :return: Returns a list of WebElements which allows for 
+        processing on specific components of web pages.
+        
+        """
         job_data = []
         page = 1
 
