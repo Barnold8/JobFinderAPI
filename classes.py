@@ -243,8 +243,9 @@ class TotalJobs(JobSite):
                     job_data.append(parsed_job)
                 except Exception:
                     pass # ignore errors - Its because they are most likely related to an element being non existant, thus we can use this to ignore that.
-
+                
             page += 1
-
+            self.link.params[len(self.link.params)-1] = f"?page={page}"
+            self.link.URL_encode()
 
 
