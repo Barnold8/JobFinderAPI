@@ -4,7 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
 import undetected_chromedriver as uc 
-
+import time
 class Link:
 
     def __init__(self,protocol:str,domain:str,tl_domain:str,params:list[str]) -> None:
@@ -138,6 +138,7 @@ class JobSite:
         websites.
 
         """
+        
         raise NotImplementedError
 
     def grabSource(self,href: Link, title:str,tag:str):
@@ -216,5 +217,34 @@ class Indeed(JobSite):
 
 class TotalJobs(JobSite):
 
-    def __init__(self) -> None:
+    def __init__(self,site_params) -> None:
         super().__init__()
+        self.link = Link("https","totaljobs","com",site_params)
+        self.website = self.makeRequest(self.link,"vacancies","body")
+
+    def grabPages(self, pages: int) -> list[dict]:
+        
+        job_data = []
+        page = 1
+        self.link.params.append("")
+        while page <= pages:
+            self.website = self.makeRequest(self.link,"vacancies","body")
+            jobs = self.website.find_elements(By.CSS_SELECTOR,"[data-at='job-item']")
+            
+            for job in jobs:
+         
+                try:
+                    parsed_job = {
+                        "name": job.find_element(By.CSS_SELECTOR,"[data-at='job-item-title']").get_attribute("innerText"),
+                        "company": job.find_element(By.CSS_SELECTOR,"[data-at='job-item-company-name']").get_attribute("innerText"),
+                        "location": job.find_element(By.CSS_SELECTOR,"[data-at='job-item-location']").get_attribute("innerText"),
+                        "link": job.find_element(By.CSS_SELECTOR,"[data-at='job-item-title']").get_attribute("href")
+                    }
+                    job_data.append(parsed_job)
+                except Exception:
+                    pass # ignore errors - Its because they are most likely related to an element being non existant, thus we can use this to ignore that.
+
+            page += 1
+
+
+

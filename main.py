@@ -1,7 +1,7 @@
 from classes import *
 
+#vacancies is the keyword for title
 
-params = ["jobs?","q=care","&l=Nottingham"]
 
-J = Indeed(params)
-
+J = TotalJobs(["jobs/","software/","in-manchester"])
+J.grabPages(2)
