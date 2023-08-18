@@ -257,15 +257,15 @@ class TotalJobs(JobSite):
         self.website = self.makeRequest(self.link,settings["sites"]["totaljobs"]["tab_title"],"body")
 
     def filter(self, unfiltered_params: list[str]) -> list[str]:
-        return
+        return ["jobs/",f"{unfiltered_params[0]}",f"in-{unfiltered_params[1]}"]
 
     def grabPages(self, pages: int) -> list[dict]:
         
         job_data = []
         page = 1
         self.link.params.append("")
-        while page <= pages:
-            self.website = self.makeRequest(self.link,settings["sites"]["totaljobs"]["tab_title"],"body")
+        while page < pages:
+            
             jobs = self.website.find_elements(By.CSS_SELECTOR,"[data-at='job-item']")
             
             for job in jobs:
@@ -284,5 +284,6 @@ class TotalJobs(JobSite):
             page += 1
             self.link.params[len(self.link.params)-1] = f"?page={page}"
             self.link.URL_encode()
+            self.website = self.makeRequest(self.link,settings["sites"]["totaljobs"]["tab_title"],"body")
 
 
