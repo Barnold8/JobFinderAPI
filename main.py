@@ -1,4 +1,4 @@
 from classes import *
 
-J = TotalJobs(["jobs/","software/","in-manchester"])
+J = Indeed(["software","manchester"])
 J.grabPages(2)

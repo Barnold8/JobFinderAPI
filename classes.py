@@ -10,8 +10,6 @@ import json
 
 
 settings = json.load(open("config/settings.json"))
-print(settings["sites"]["indeed"]["tab_title"])
-print(settings["sites"]["totaljobs"]["tab_title"])
 
 class Link:
 
@@ -76,7 +74,9 @@ class Link:
         """
 
         conditions = {" ": "%20", ",": "%2C"}
+
         self.params = [self.replace_all(param, conditions) for param in self.params]
+
 
     def complete(self):
         return f"{self.protocol}://www.{self.domain}.{self.tl_domain}/{''.join(self.params)}"
@@ -89,12 +89,17 @@ class JobSite:
 
         options = uc.ChromeOptions() 
         # options.headless = True 
+
         self.browser = uc.Chrome(use_subprocess=True, options=options)
+    
         self.params = self.filter(site_params)
+
         #line below grabs instance object class name
         self.class_name = re.search(r"(?<=\.)(.*)(?=')",str(type(self))).group()
+         
+        self.link = Link("https",self.class_name,"com",self.params)
+              
 
-        self.link = Link("https",self.class_name,"com",site_params)
 
     def makeRequest(self,href: Link, title:str,tag:str) -> WebElement:
         """
@@ -202,9 +207,10 @@ class Indeed(JobSite):
     def __init__(self,site_params) -> None:
         super().__init__(site_params=site_params)
         self.website = self.makeRequest(self.link,settings["sites"]["indeed"]["tab_title"],"body")
-
+        
     def filter(self, unfiltered_params: list[str]) -> list[str]:
-        return
+        return ["jobs?",f"q={unfiltered_params[0]}&",f"l={unfiltered_params[1]}"]
+        
 
     def grabPages(self, pages: int) -> list[dict]:
         """
