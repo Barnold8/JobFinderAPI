@@ -135,7 +135,7 @@ class JobSite:
         self.browser.get(href.complete())
         
         WebDriverWait(self.browser,JobSite.WAIT_TIMER).until(lambda driver: title in driver.title.lower() )
-        time.sleep(5)
+       
         return self.browser.find_element(By.TAG_NAME,tag)
 
     def grabPages(self,pages:int)-> list[WebElement]:
@@ -209,6 +209,19 @@ class Indeed(JobSite):
         self.website = self.makeRequest(self.link,settings["sites"]["indeed"]["tab_title"],"body")
         
     def filter(self, unfiltered_params: list[str]) -> list[str]:
+        """
+        @author: Barnold8
+        
+        This function filters the parameters to their according website
+        such that the request is legible to the server. 
+
+        :unfiltered_params: The passed in params in their most basic form
+        these are to be filtered according to the format of the website. 
+
+        :return: Returns a list of filtered parameters to be passed into
+        a website 
+
+        """
         return ["jobs?",f"q={unfiltered_params[0]}&",f"l={unfiltered_params[1]}"]
         
 
@@ -257,10 +270,34 @@ class TotalJobs(JobSite):
         self.website = self.makeRequest(self.link,settings["sites"]["totaljobs"]["tab_title"],"body")
 
     def filter(self, unfiltered_params: list[str]) -> list[str]:
+        """
+        @author: Barnold8
+        
+        This function filters the parameters to their according website
+        such that the request is legible to the server. 
+
+        :unfiltered_params: The passed in params in their most basic form
+        these are to be filtered according to the format of the website. 
+
+        :return: Returns a list of filtered parameters to be passed into
+        a website 
+
+        """
         return ["jobs/",f"{unfiltered_params[0]}",f"in-{unfiltered_params[1]}"]
 
     def grabPages(self, pages: int) -> list[dict]:
+        """
+        @author: Barnold8
         
+        grabPages takes an amount of pages and returns a list of pages to
+        process. 
+
+        :pages: The amount of pages to grab. 
+
+        :return: Returns a list of WebElements which allows for 
+        processing on specific components of web pages.
+        
+        """
         job_data = []
         page = 1
         self.link.params.append("")
