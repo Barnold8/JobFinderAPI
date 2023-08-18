@@ -5,6 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
 import undetected_chromedriver as uc 
 import time
+import re
+
 class Link:
 
     def __init__(self,protocol:str,domain:str,tl_domain:str,params:list[str]) -> None:
@@ -75,16 +77,21 @@ class Link:
 
 class JobSite:
     
-    # self note, depth will be in the actual website class 
-    # so the website class can handle button clicks 
-
     WAIT_TIMER = 15
 
-    def __init__(self) -> None:
+    def __init__(self,site_params:list[str]) -> None:
 
         options = uc.ChromeOptions() 
         # options.headless = True 
         self.browser = uc.Chrome(use_subprocess=True, options=options)
+        self.params = self.filter(site_params)
+        #line below grabs instance object class name
+        self.class_name = re.search(r"(?<=\.)(.*)(?=')",str(type(self))).group()
+
+        self.link = Link("https",self.class_name,"com",site_params)
+
+        
+
 
     def makeRequest(self,href: Link, title:str,tag:str) -> WebElement:
         """
@@ -140,6 +147,24 @@ class JobSite:
         """
         
         raise NotImplementedError
+    
+
+    def filter(self,unfiltered_params:list[str])-> list[str]:
+        """
+        @author: Barnold8
+        
+        This function filters the parameters to their according website
+        such that the request is legible to the server. 
+
+        :unfiltered_params: The passed in params in their most basic form
+        these are to be filtered according to the format of the website. 
+
+        :return: Returns a list of filtered parameters to be passed into
+        a website 
+
+        """
+
+        raise NotImplementedError
 
     def grabSource(self,href: Link, title:str,tag:str):
         """
@@ -156,7 +181,7 @@ class JobSite:
         
         """
         return self.makeRequest(href,title,tag).get_attribute("outerHTML")
-    
+
     def quit(self)-> None:
         """
         @author: Barnold8
@@ -164,7 +189,7 @@ class JobSite:
         Closes the browser instance
 
         :return: None
-        
+
         """
         self.browser.quit()
 
@@ -172,10 +197,12 @@ class JobSite:
 class Indeed(JobSite):
 
     def __init__(self,site_params) -> None:
-        super().__init__()
-        self.link = Link("https","indeed","com",site_params)
+        super().__init__(site_params=site_params)
         self.website = self.makeRequest(self.link,"indeed","body")
+        
 
+    def filter(self, unfiltered_params: list[str]) -> list[str]:
+        return
 
     def grabPages(self, pages: int) -> list[dict]:
         """
@@ -218,9 +245,11 @@ class Indeed(JobSite):
 class TotalJobs(JobSite):
 
     def __init__(self,site_params) -> None:
-        super().__init__()
-        self.link = Link("https","totaljobs","com",site_params)
+        super().__init__(site_params=site_params)
         self.website = self.makeRequest(self.link,"vacancies","body")
+
+    def filter(self, unfiltered_params: list[str]) -> list[str]:
+        return
 
     def grabPages(self, pages: int) -> list[dict]:
         
