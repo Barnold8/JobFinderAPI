@@ -6,6 +6,12 @@ from selenium.webdriver.remote.webelement import WebElement
 import undetected_chromedriver as uc 
 import time
 import re
+import json 
+
+
+settings = json.load(open("config/settings.json"))
+print(settings["sites"]["indeed"]["tab_title"])
+print(settings["sites"]["totaljobs"]["tab_title"])
 
 class Link:
 
@@ -124,7 +130,7 @@ class JobSite:
         self.browser.get(href.complete())
         
         WebDriverWait(self.browser,JobSite.WAIT_TIMER).until(lambda driver: title in driver.title.lower() )
-
+        
         return self.browser.find_element(By.TAG_NAME,tag)
 
     def grabPages(self,pages:int)-> list[WebElement]:
@@ -195,8 +201,7 @@ class Indeed(JobSite):
 
     def __init__(self,site_params) -> None:
         super().__init__(site_params=site_params)
-        self.website = self.makeRequest(self.link,"indeed","body")
-        
+        self.website = self.makeRequest(self.link,settings["sites"]["indeed"]["tab_title"],"body")
 
     def filter(self, unfiltered_params: list[str]) -> list[str]:
         return
@@ -235,7 +240,7 @@ class Indeed(JobSite):
             page += 1
             self.link.params[len(self.link.params)-1] = f"&start={(page-1)*10}"
             self.link.URL_encode()
-            self.website = self.makeRequest(self.link,"indeed","body")
+            self.website = self.makeRequest(self.link,settings["sites"]["indeed"]["tab_title"],"body")
 
         return job_data
 
@@ -243,7 +248,7 @@ class TotalJobs(JobSite):
 
     def __init__(self,site_params) -> None:
         super().__init__(site_params=site_params)
-        self.website = self.makeRequest(self.link,"vacancies","body")
+        self.website = self.makeRequest(self.link,settings["sites"]["totaljobs"]["tab_title"],"body")
 
     def filter(self, unfiltered_params: list[str]) -> list[str]:
         return
@@ -254,7 +259,7 @@ class TotalJobs(JobSite):
         page = 1
         self.link.params.append("")
         while page <= pages:
-            self.website = self.makeRequest(self.link,"vacancies","body")
+            self.website = self.makeRequest(self.link,settings["sites"]["totaljobs"]["tab_title"],"body")
             jobs = self.website.find_elements(By.CSS_SELECTOR,"[data-at='job-item']")
             
             for job in jobs:
