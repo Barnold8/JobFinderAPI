@@ -8,9 +8,8 @@ sites = ["indeed","totaljobs"]
 
 
 job_get_args = reqparse.RequestParser()
-job_get_args.add_argument("site",type=str,help="The website to parse jobs from")
-job_get_args.add_argument("where",type=str,help="Location of the user <City/Postcode/Zip code>")
-job_get_args.add_argument("what", type=str,help="Name of the job e.g. Carer, IT, Retail, Software engineer, Manager")
+job_get_args.add_argument("where",type=str,help="Location of the user is required <City/Postcode/Zip code>",required = True)
+job_get_args.add_argument("what", type=str,help="Name of the job e.g. Carer, IT, Retail, Software engineer, Manager is required",required = True)
 
 
 def abort_if_not_job(job:str):
