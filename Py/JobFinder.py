@@ -1,5 +1,7 @@
 from flask import Flask, render_template
 from flask_restful import reqparse, abort, Api, Resource
+import sys
+sys.path.append("../Py")
 import classes
 
 
