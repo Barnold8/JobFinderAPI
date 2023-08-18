@@ -5,6 +5,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
 import undetected_chromedriver as uc 
 import time
+import re
+import json 
+
+
+settings = json.load(open("config/settings.json"))
+
 class Link:
 
     def __init__(self,protocol:str,domain:str,tl_domain:str,params:list[str]) -> None:
@@ -68,23 +74,32 @@ class Link:
         """
 
         conditions = {" ": "%20", ",": "%2C"}
+
         self.params = [self.replace_all(param, conditions) for param in self.params]
+
 
     def complete(self):
         return f"{self.protocol}://www.{self.domain}.{self.tl_domain}/{''.join(self.params)}"
 
 class JobSite:
     
-    # self note, depth will be in the actual website class 
-    # so the website class can handle button clicks 
-
     WAIT_TIMER = 15
 
-    def __init__(self) -> None:
+    def __init__(self,site_params:list[str]) -> None:
 
         options = uc.ChromeOptions() 
         # options.headless = True 
+
         self.browser = uc.Chrome(use_subprocess=True, options=options)
+    
+        self.params = self.filter(site_params)
+
+        #line below grabs instance object class name
+        self.class_name = re.search(r"(?<=\.)(.*)(?=')",str(type(self))).group()
+         
+        self.link = Link("https",self.class_name,"com",self.params)
+              
+
 
     def makeRequest(self,href: Link, title:str,tag:str) -> WebElement:
         """
@@ -120,7 +135,7 @@ class JobSite:
         self.browser.get(href.complete())
         
         WebDriverWait(self.browser,JobSite.WAIT_TIMER).until(lambda driver: title in driver.title.lower() )
-
+       
         return self.browser.find_element(By.TAG_NAME,tag)
 
     def grabPages(self,pages:int)-> list[WebElement]:
@@ -140,6 +155,24 @@ class JobSite:
         """
         
         raise NotImplementedError
+    
+
+    def filter(self,unfiltered_params:list[str])-> list[str]:
+        """
+        @author: Barnold8
+        
+        This function filters the parameters to their according website
+        such that the request is legible to the server. 
+
+        :unfiltered_params: The passed in params in their most basic form
+        these are to be filtered according to the format of the website. 
+
+        :return: Returns a list of filtered parameters to be passed into
+        a website 
+
+        """
+
+        raise NotImplementedError
 
     def grabSource(self,href: Link, title:str,tag:str):
         """
@@ -156,7 +189,7 @@ class JobSite:
         
         """
         return self.makeRequest(href,title,tag).get_attribute("outerHTML")
-    
+
     def quit(self)-> None:
         """
         @author: Barnold8
@@ -164,7 +197,7 @@ class JobSite:
         Closes the browser instance
 
         :return: None
-        
+
         """
         self.browser.quit()
 
@@ -172,10 +205,25 @@ class JobSite:
 class Indeed(JobSite):
 
     def __init__(self,site_params) -> None:
-        super().__init__()
-        self.link = Link("https","indeed","com",site_params)
-        self.website = self.makeRequest(self.link,"indeed","body")
+        super().__init__(site_params=site_params)
+        self.website = self.makeRequest(self.link,settings["sites"]["indeed"]["tab_title"],"body")
+        
+    def filter(self, unfiltered_params: list[str]) -> list[str]:
+        """
+        @author: Barnold8
+        
+        This function filters the parameters to their according website
+        such that the request is legible to the server. 
 
+        :unfiltered_params: The passed in params in their most basic form
+        these are to be filtered according to the format of the website. 
+
+        :return: Returns a list of filtered parameters to be passed into
+        a website 
+
+        """
+        return ["jobs?",f"q={unfiltered_params[0]}&",f"l={unfiltered_params[1]}"]
+        
 
     def grabPages(self, pages: int) -> list[dict]:
         """
@@ -194,7 +242,7 @@ class Indeed(JobSite):
         page = 1
 
         self.link.params.append("")
-        while page <= pages:
+        while page < pages:
             jobs = self.website.find_elements(By.CLASS_NAME, "cardOutline ")
             for job in jobs:
                 try:
@@ -211,24 +259,50 @@ class Indeed(JobSite):
             page += 1
             self.link.params[len(self.link.params)-1] = f"&start={(page-1)*10}"
             self.link.URL_encode()
-            self.website = self.makeRequest(self.link,"indeed","body")
+            self.website = self.makeRequest(self.link,settings["sites"]["indeed"]["tab_title"],"body")
 
         return job_data
 
 class TotalJobs(JobSite):
 
     def __init__(self,site_params) -> None:
-        super().__init__()
-        self.link = Link("https","totaljobs","com",site_params)
-        self.website = self.makeRequest(self.link,"vacancies","body")
+        super().__init__(site_params=site_params)
+        self.website = self.makeRequest(self.link,settings["sites"]["totaljobs"]["tab_title"],"body")
+
+    def filter(self, unfiltered_params: list[str]) -> list[str]:
+        """
+        @author: Barnold8
+        
+        This function filters the parameters to their according website
+        such that the request is legible to the server. 
+
+        :unfiltered_params: The passed in params in their most basic form
+        these are to be filtered according to the format of the website. 
+
+        :return: Returns a list of filtered parameters to be passed into
+        a website 
+
+        """
+        return ["jobs/",f"{unfiltered_params[0]}",f"in-{unfiltered_params[1]}"]
 
     def grabPages(self, pages: int) -> list[dict]:
+        """
+        @author: Barnold8
         
+        grabPages takes an amount of pages and returns a list of pages to
+        process. 
+
+        :pages: The amount of pages to grab. 
+
+        :return: Returns a list of WebElements which allows for 
+        processing on specific components of web pages.
+        
+        """
         job_data = []
         page = 1
         self.link.params.append("")
-        while page <= pages:
-            self.website = self.makeRequest(self.link,"vacancies","body")
+        while page < pages:
+            
             jobs = self.website.find_elements(By.CSS_SELECTOR,"[data-at='job-item']")
             
             for job in jobs:
@@ -247,5 +321,6 @@ class TotalJobs(JobSite):
             page += 1
             self.link.params[len(self.link.params)-1] = f"?page={page}"
             self.link.URL_encode()
+            self.website = self.makeRequest(self.link,settings["sites"]["totaljobs"]["tab_title"],"body")
 
 

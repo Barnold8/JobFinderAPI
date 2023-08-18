@@ -1,0 +1,13 @@
+{
+    "sites":{
+        
+        "indeed":{
+            "tab_title" : "indeed" 
+        },
+        
+        "totaljobs":{
+            "tab_title" : "vacancies"
+        }
+        
+    }
+}
