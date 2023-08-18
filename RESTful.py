@@ -7,14 +7,22 @@ api = Api(app)
 sites = ["indeed","totaljobs"]
 
 
+job_get_args = reqparse.RequestParser()
+job_get_args.add_argument("site",type=str,help="The website to parse jobs from")
+job_get_args.add_argument("where",type=str,help="Location of the user <City/Postcode/Zip code>")
+job_get_args.add_argument("what", type=str,help="Name of the job e.g. Carer, IT, Retail, Software engineer, Manager")
+
+
 def abort_if_not_job(job:str):
     if job.lower() not in sites:
         abort(404,message=f"Job '{job}' isn't a requestable site on this API.")
 
 class Job(Resource):
     def get(self,job_site):
+        args = job_get_args.parse_args()
         abort_if_not_job(job_site)
-        return {job_site: "Y"}
+
+        return {job_site: args}
 
 
 api.add_resource(Job, '/Job/<string:job_site>')
