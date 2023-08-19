@@ -34,7 +34,7 @@ class Job(Resource):
 
         job_parser = sites[job_site.lower()]([args["what"],args["where"]])
         job_data = job_parser.grabPages(int(args["pages"]))
-        print(job_data)
+        
         job_parser.quit()
 
         return {"Job data": job_data}

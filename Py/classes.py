@@ -242,7 +242,7 @@ class Indeed(JobSite):
         page = 1
 
         self.link.params.append("")
-        while page < pages:
+        while page <= pages:
             jobs = self.website.find_elements(By.CLASS_NAME, "cardOutline ")
             for job in jobs:
                 try:
@@ -301,7 +301,7 @@ class TotalJobs(JobSite):
         job_data = []
         page = 1
         self.link.params.append("")
-        while page < pages:
+        while page <= pages:
             
             jobs = self.website.find_elements(By.CSS_SELECTOR,"[data-at='job-item']")
             
