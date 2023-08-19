@@ -23,23 +23,47 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
 </details>
 
 <details>
-<summary><h3>How to use it.</h3></summary>
+<summary><h3>How to use the API.</h3></summary>
 
-  This API has **one** endpoint due to its simple nature. This endpoint is called **_Job_**. This endpoint takes a job website name and three variables.
+  This API has **one** endpoint due to its simple nature. This endpoint is called **_Job_**. This endpoint takes a job website name as the URI and three variables.
   The three variables are as follows:
   
   * where: Location of the user, used to find jobs close to them
   * what: The desired job role of the user, used to find jobs relating to their desired job role
   * pages: The amount of jobs that are parsed from the given site
+  
+  <details>
+    
+  <summary><h4> GET requests </h4></summary>
+  
+  > An sample request would look like:
+  > > GET http://127.0.0.1:8000/Job/indeed?what=care&where=London&pages=1
+  <details>
+  <summary><h3>Sample response **_(Not real data)_**</h3></summary>
 
+  ```json
+  {
+      "Job data": [
+          {
+              "name": "Johns care institute",
+              "company": "JCI",
+              "location": "Fake west st",
+              "link": "https://cataas.com/cat/says/hello%20world!"
+          },
+          {
+              "name": "Veterinary Receptionist",
+              "company": "Vets R us",
+              "location": "Northampton silly billy st",
+              "link": "https://genrandom.com/cats/"
+          }
+      ]
+  }
+```
 </details>
 
-<details>
-<summary><h3> GET requests </h3></summary>
-
-
-
 </details>
+</details>
+
 
 <details>
 <summary><h3> Configuration file </h3></summary>
@@ -51,7 +75,7 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
 <details>
 <summary><h3> Supported sites </h3></summary>
 
-  * Indeed.com
+* Indeed.com
 
 </details>
 
