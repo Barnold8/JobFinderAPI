@@ -98,6 +98,30 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
 }
 ```
 
+<details>
+<summary><h4> The sites section </h4></summary>
+
+The **sites** section relates to classes.py. Each job website that is supported will require a **tab title**. A tab title is the title you see within the tab. The tab titles in the settings file are a substring, the substring pertaining to the website is what can be expected within the tab title on a successful query. This is used to ensure that the website has fully loaded before data is scraped off of the page.
+
+</details>
+
+<summary><h4> The API section </h4></summary>
+
+The **API** section relates to the configurations that can be made for the API. These are basic things like the host or port. On top of this, there are a set of booleans that can be true or false. By default they are all true (this is recommended,except debug mode which shouldn't be on in production environments). The booleans work as follows
+
+* job_name_required - Job endpoint requires the variable "what" to be filled in
+* user_location_required - Job endpoint requires the variable "where" to be filled in
+* page_amount_required - Job endpoint requires the variable "pages" to be filled in
+* debug_mode - Allows for debug output in the console for the API server
+
+</details>
+
+</details>
+
+
+
+
+
 </details>
 
 <details>
