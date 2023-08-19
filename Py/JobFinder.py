@@ -37,7 +37,7 @@ class Job(Resource):
         print(job_data)
         job_parser.quit()
 
-        return {job_site: job_data}
+        return {"Job data": job_data}
 
 
 api.add_resource(Job, '/Job/<string:job_site>')
