@@ -41,7 +41,7 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
   > An sample request would look like:
   > > GET http://127.0.0.1:8000/Job/indeed?what=care&where=London&pages=1
   <details>
-  <summary><h3>Sample response **(Not real data)**</h3></summary>
+  <summary><h3>Sample response <b>(Not real data)</b></h3></summary>
 
   ```json
   {
