@@ -31,6 +31,8 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
   * where: Location of the user, used to find jobs close to them
   * what: The desired job role of the user, used to find jobs relating to their desired job role
   * pages: The amount of jobs that are parsed from the given site
+
+  By default, these variables are required. However, even though it is not recommended, these variables can become optional if you set the corresponding booleans to false in the configuration file provided. To see more information on this see [Configuration file](#config)
   
   <details>
     
@@ -39,7 +41,7 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
   > An sample request would look like:
   > > GET http://127.0.0.1:8000/Job/indeed?what=care&where=London&pages=1
   <details>
-  <summary><h3>Sample response **_(Not real data)_**</h3></summary>
+  <summary><h3>Sample response **(Not real data)**</h3></summary>
 
   ```json
   {
@@ -66,7 +68,7 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
 
 
 <details>
-<summary><h3> Configuration file </h3></summary>
+<summary name="config"><h3> Configuration file </h3></summary>
 
 
 
