@@ -283,7 +283,7 @@ class TotalJobs(JobSite):
         a website 
 
         """
-        return ["jobs/",f"{unfiltered_params[0]}",f"in-{unfiltered_params[1]}"]
+        return ["jobs/",f"{unfiltered_params[0]}/",f"in-{unfiltered_params[1]}"]
 
     def grabPages(self, pages: int) -> list[dict]:
         """
