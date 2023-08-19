@@ -17,7 +17,6 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
   undetected-chromedriver 3.5.2 - Used to get past basic cloudflare bot protection
   Flask 2.3.2 - Used to facilitate API
   Flask-RESTful 0.3.10 - Used to help make API RESTful
-  
 ```
 > Using  pip install -r requirements.txt will fix any dependency issues
 
@@ -26,7 +25,12 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
 <details>
 <summary><h3>How to use it.</h3></summary>
 
-
+  This API has **one** endpoint due to its simple nature. This endpoint is called **_Job_**. This endpoint takes a job website name and three variables.
+  The three variables are as follows:
+  
+  * where: Location of the user, used to find jobs close to them
+  * what: The desired job role of the user, used to find jobs relating to their desired job role
+  * pages: The amount of jobs that are parsed from the given site
 
 </details>
 
@@ -44,6 +48,12 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
 
 </details>
 
+<details>
+<summary><h3> Supported sites </h3></summary>
+
+  * Indeed.com
+
+</details>
 
 
 
