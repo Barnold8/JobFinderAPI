@@ -14,7 +14,11 @@
         
         "host": "0.0.0.0",
         "port": 8000,
+        "job_name_required": true,
+        "user_location_required": true,
+        "page_amount_required": true,
         "debug_mode": true
+        
 
     }
 }

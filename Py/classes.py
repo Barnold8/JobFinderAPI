@@ -135,7 +135,7 @@ class JobSite:
         self.browser.get(href.complete())
         
         WebDriverWait(self.browser,JobSite.WAIT_TIMER).until(lambda driver: title in driver.title.lower() )
-       
+        time.sleep(5)
         return self.browser.find_element(By.TAG_NAME,tag)
 
     def grabPages(self,pages:int)-> list[WebElement]:
@@ -207,7 +207,7 @@ class Indeed(JobSite):
     def __init__(self,site_params) -> None:
         super().__init__(site_params=site_params)
         self.website = self.makeRequest(self.link,settings["sites"]["indeed"]["tab_title"],"body")
-        
+
     def filter(self, unfiltered_params: list[str]) -> list[str]:
         """
         @author: Barnold8
@@ -283,7 +283,7 @@ class TotalJobs(JobSite):
         a website 
 
         """
-        return ["jobs/",f"{unfiltered_params[0]}",f"in-{unfiltered_params[1]}"]
+        return ["jobs/",f"{unfiltered_params[0]}/",f"in-{unfiltered_params[1]}"]
 
     def grabPages(self, pages: int) -> list[dict]:
         """
@@ -322,5 +322,5 @@ class TotalJobs(JobSite):
             self.link.params[len(self.link.params)-1] = f"?page={page}"
             self.link.URL_encode()
             self.website = self.makeRequest(self.link,settings["sites"]["totaljobs"]["tab_title"],"body")
-
+        return job_data
 
