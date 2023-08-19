@@ -7,6 +7,9 @@ import classes
 app = Flask(__name__)
 api = Api(app)
 
+    
+settings = json.load(open("config/settings.json"))
+
 sites = {
     "indeed": classes.Indeed,
     "totaljobs":classes.TotalJobs
@@ -14,8 +17,9 @@ sites = {
 
         # args are case sensitive
 job_get_args = reqparse.RequestParser()
-job_get_args.add_argument("where",type=str,help="Location of the user is required <City/Postcode/Zip code>",required = True)
-job_get_args.add_argument("what", type=str,help="Name of the job e.g. Carer, IT, Retail, Software engineer, Manager is required",required = True)
+job_get_args.add_argument("where",type=str,help="Location of the user is required <City/Postcode/Zip code>",required = settings["API"]["user_location_required"])
+job_get_args.add_argument("what", type=str,help="Name of the job e.g. Carer, IT, Retail, Software engineer, Manager is required",required = settings["API"]["job_name_required"])
+job_get_args.add_argument("pages", type=str,help="The amount of pages to process",required = settings["API"]["page_amount_required"])
 # add pages arg here, NOT REQUIRED (required = False)
 
 def abort_if_not_job(job:str):
@@ -38,7 +42,5 @@ class Job(Resource):
 api.add_resource(Job, '/Job/<string:job_site>')
 
 if __name__ == "__main__":
-    
-    settings = json.load(open("config/settings.json"))
 
     app.run(host=settings["API"]["host"], port=settings["API"]["port"], debug=settings["API"]["debug_mode"])
