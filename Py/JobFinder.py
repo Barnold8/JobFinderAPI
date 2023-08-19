@@ -32,7 +32,7 @@ class Job(Resource):
 
         abort_if_not_job(job_site)
 
-        job_parser = sites["indeed"]([args["what"],args["where"]])
+        job_parser = sites[job_site.lower()]([args["what"],args["where"]])
 
         job_parser.quit()
 
