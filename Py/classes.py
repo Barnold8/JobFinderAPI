@@ -322,5 +322,5 @@ class TotalJobs(JobSite):
             self.link.params[len(self.link.params)-1] = f"?page={page}"
             self.link.URL_encode()
             self.website = self.makeRequest(self.link,settings["sites"]["totaljobs"]["tab_title"],"body")
-
+        return job_data
 
