@@ -20,7 +20,7 @@ job_get_args = reqparse.RequestParser()
 job_get_args.add_argument("where",type=str,help="Location of the user is required <City/Postcode/Zip code>",required = settings["API"]["user_location_required"])
 job_get_args.add_argument("what", type=str,help="Name of the job e.g. Carer, IT, Retail, Software engineer, Manager is required",required = settings["API"]["job_name_required"])
 job_get_args.add_argument("pages", type=str,help="The amount of pages to process",required = settings["API"]["page_amount_required"])
-# add pages arg here, NOT REQUIRED (required = False)
+
 
 def abort_if_not_job(job:str):
     if job.lower() not in sites:
@@ -33,10 +33,11 @@ class Job(Resource):
         abort_if_not_job(job_site)
 
         job_parser = sites[job_site.lower()]([args["what"],args["where"]])
-
+        job_data = job_parser.grabPages(int(args["pages"]))
+        print(job_data)
         job_parser.quit()
 
-        return {job_site: args}
+        return {job_site: job_data}
 
 
 api.add_resource(Job, '/Job/<string:job_site>')
