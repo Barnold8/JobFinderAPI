@@ -12,11 +12,11 @@ sites = {
     "totaljobs":classes.TotalJobs
 }
 
-
+        # args are case sensitive
 job_get_args = reqparse.RequestParser()
 job_get_args.add_argument("where",type=str,help="Location of the user is required <City/Postcode/Zip code>",required = True)
 job_get_args.add_argument("what", type=str,help="Name of the job e.g. Carer, IT, Retail, Software engineer, Manager is required",required = True)
-
+# add pages arg here, NOT REQUIRED (required = False)
 
 def abort_if_not_job(job:str):
     if job.lower() not in sites:
@@ -25,7 +25,12 @@ def abort_if_not_job(job:str):
 class Job(Resource):
     def get(self,job_site):
         args = job_get_args.parse_args()
+
         abort_if_not_job(job_site)
+
+        job_parser = sites["indeed"]([args["what"],args["where"]])
+
+        job_parser.quit()
 
         return {job_site: args}
 

@@ -135,7 +135,7 @@ class JobSite:
         self.browser.get(href.complete())
         
         WebDriverWait(self.browser,JobSite.WAIT_TIMER).until(lambda driver: title in driver.title.lower() )
-       
+        time.sleep(5)
         return self.browser.find_element(By.TAG_NAME,tag)
 
     def grabPages(self,pages:int)-> list[WebElement]:
@@ -207,7 +207,7 @@ class Indeed(JobSite):
     def __init__(self,site_params) -> None:
         super().__init__(site_params=site_params)
         self.website = self.makeRequest(self.link,settings["sites"]["indeed"]["tab_title"],"body")
-        
+
     def filter(self, unfiltered_params: list[str]) -> list[str]:
         """
         @author: Barnold8
