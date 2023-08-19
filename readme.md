@@ -6,8 +6,7 @@
 
 # What is it?
 
-The job finder API is a mechanism to provide ease of use in regards to finding jobs programmatically. This repository is aimed at applications that wish to query multiple job websites for, well, jobs! An example in mind would be an application that allows a user to pick job websites from a checklist, provide their location and then the role they wish to embark upon. After this, on their end theyll get a whole massive list of jobs, but behind the scenes, this API will scrape job websites with specific paramitized data that the user gave. However, this can be used however you please **(I AM NOT RESPONSIBLE FOR THE USE OF THIS API BY EXTERNAL PARTIES THAT AREN'T ME)
-**
+The job finder API is a mechanism to provide ease of use in regards to finding jobs programmatically. This repository is aimed at applications that wish to query multiple job websites for, well, jobs! An example in mind would be an application that allows a user to pick job websites from a checklist, provide their location and then the role they wish to embark upon. After this, on their end theyll get a whole massive list of jobs, but behind the scenes, this API will scrape job websites with specific paramitized data that the user gave. However, this can be used however you please **(I AM NOT RESPONSIBLE FOR THE USE OF THIS API BY EXTERNAL PARTIES THAT AREN'T ME)**
 
 <details>
 <summary><h3>Requirements.</h3></summary>
@@ -38,10 +37,10 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
     
   <summary><h4> GET requests </h4></summary>
   
-  > An sample request would look like:
+  > A sample request would look like:
   > > GET http://127.0.0.1:8000/Job/indeed?what=care&where=London&pages=1
   <details>
-  <summary><h3>Sample response <b>(Not real data)</b></h3></summary>
+  <summary><h4>Sample response <b>(Not real data)</b></h4></summary>
 
   ```json
   {
@@ -70,7 +69,34 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
 <details>
 <summary name="config"><h3> Configuration file </h3></summary>
 
+  The configuration file allows customisation of the API and the website parser to meet the needs of your application. 
+  The config.json file looks like and can be found [here](https://github.com/Barnold8/JobFinderAPI/blob/main/config/settings.json)
+```json
+{
+    "sites":{
+        
+        "indeed":{
+            "tab_title" : "indeed" 
+        },
+        
+        "totaljobs":{
+            "tab_title" : "vacancies"
+        }
+        
+    },
+    "API":{
+        
+        "host": "0.0.0.0",
+        "port": 8000,
+        "job_name_required": true,
+        "user_location_required": true,
+        "page_amount_required": true,
+        "debug_mode": true
+        
 
+    }
+}
+```
 
 </details>
 
