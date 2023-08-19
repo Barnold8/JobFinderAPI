@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask_restful import reqparse, abort, Api, Resource
-
+import json
 import classes
 
 
@@ -33,4 +33,7 @@ class Job(Resource):
 api.add_resource(Job, '/Job/<string:job_site>')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, debug=True)
+    
+    settings = json.load(open("config/settings.json"))
+
+    app.run(host=settings["API"]["host"], port=settings["API"]["port"], debug=settings["API"]["debug_mode"])
