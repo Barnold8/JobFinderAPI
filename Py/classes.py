@@ -88,7 +88,7 @@ class JobSite:
     def __init__(self,site_params:list[str]) -> None:
 
         options = uc.ChromeOptions() 
-        # options.headless = True 
+        options.headless = True 
 
         self.browser = uc.Chrome(use_subprocess=True, options=options)
     
