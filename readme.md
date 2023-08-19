@@ -127,7 +127,8 @@ The **API** section relates to the configurations that can be made for the API. 
 <details>
 <summary><h3> Supported sites </h3></summary>
 
-* Indeed.com
+* [Indeed.com](https://indeed.com/)
+* [TotalJobs](https://www.totaljobs.com/)
 
 </details>
 
