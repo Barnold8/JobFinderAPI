@@ -33,7 +33,8 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
   * pages: The amount of jobs that are parsed from the given site
 
   By default, these variables are required. However, even though it is not recommended, these variables can become optional if you set the corresponding booleans to false in the configuration file provided. To see more information on this see [Configuration file](#config)
-  
+
+  **IMPORTANT: when sending a request to the api there must be an empty JSON body in there. I don't know why this is a thing, but it seems its the only way to make Flask RESTful happy**
   <details>
     
   <summary><h4> GET requests </h4></summary>
@@ -44,7 +45,7 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
   > If you want to try sending a request with curl, the request will look like 
   > > curl -X GET -H "Content-Type: application/json" -d "{}" "127.0.0.1:8000/Job/indeed?what="Software"&where="London"&pages=2"
   > > > Note: the host and port will be different depending on what is stored in settings.json. 
-        Content type being json is just a weird Flask RESTful thing to allow requests
+        The content type being application/json as well as having -d "{}" in there is just so flask RESTful can read the request.
   <details>
   <summary><h4>Sample response <b>(Not real data)</b></h4></summary>
 
