@@ -40,6 +40,11 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
   
   > A sample request would look like:
   > > GET http://127.0.0.1:8000/Job/indeed?what=care&where=London&pages=1
+
+  > If you want to try sending a request with curl, the request will look like 
+  > > curl -X GET -H "Content-Type: application/json" -d "{}" "127.0.0.1:8000/Job/indeed?what="Software"&where="London"&pages=2"
+  > > > Note: the host and port will be different depending on what is stored in settings.json. 
+        Content type being json is just a weird Flask RESTful thing to allow requests
   <details>
   <summary><h4>Sample response <b>(Not real data)</b></h4></summary>
 
