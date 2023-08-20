@@ -128,7 +128,14 @@ The **API** section relates to the configurations that can be made for the API. 
 </details>
 
 
+<details>
+<summary><h3> FAQ </h3></summary>
 
+#### Why does the API sometimes have response times around 5s and sometimes 17?
+
+The unfortunate truth is cloudflare. Web scraping can still be picked up by cloud flare and may subvert traffic for a few seconds. It may even be possible that the website being scraped has been updated and the web scraper can't get past the anti bot mechanisms, thus the way of life.
+
+</details>
 
 
 </details>
