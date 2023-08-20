@@ -2,7 +2,8 @@
     "sites":{
         
         "indeed":{
-            "tab_title" : "indeed" 
+            "tab_title" : "indeed", 
+            "uk" : true
         },
         
         "totaljobs":{

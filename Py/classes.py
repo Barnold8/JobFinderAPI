@@ -4,7 +4,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
 import undetected_chromedriver as uc 
-import time
 import re
 import json 
 import constants
@@ -79,6 +78,8 @@ class Link:
 
 
     def complete(self):
+        if settings["sites"]["indeed"]["uk"]:
+            return f"{self.protocol}:{self.domain}.{self.tl_domain}/{''.join(self.params)}"
         return f"{self.protocol}://www.{self.domain}.{self.tl_domain}/{''.join(self.params)}"
 
 class JobSite:
@@ -88,7 +89,7 @@ class JobSite:
     def __init__(self,site_params:list[str]) -> None:
 
         options = uc.ChromeOptions() 
-        # options.headless = True 
+        options.headless = True 
 
         self.browser = uc.Chrome(use_subprocess=True, options=options)
     
@@ -205,6 +206,9 @@ class Indeed(JobSite):
 
     def __init__(self,site_params) -> None:
         super().__init__(site_params=site_params)
+        if settings["sites"]["indeed"]["uk"]:
+            self.link.domain = "uk.indeed"
+
         self.website = self.makeRequest(self.link,settings["sites"]["indeed"]["tab_title"],"body")
 
     def filter(self, unfiltered_params: list[str]) -> list[str]:
