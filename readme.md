@@ -85,7 +85,8 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
     "sites":{
         
         "indeed":{
-            "tab_title" : "indeed" 
+            "tab_title" : "indeed",
+            "uk": true,
         },
         
         "totaljobs":{
@@ -110,7 +111,7 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
 <details>
 <summary><h4> The sites section </h4></summary>
 
-The **sites** section relates to classes.py. Each job website that is supported will require a **tab title**. A tab title is the title you see within the tab. The tab titles in the settings file are a substring, the substring pertaining to the website is what can be expected within the tab title on a successful query. This is used to ensure that the website has fully loaded before data is scraped off of the page.
+The **sites** section relates to classes.py. Each job website that is supported will require a **tab title**. A tab title is the title you see within the tab. The tab titles in the settings file are a substring, the substring pertaining to the website is what can be expected within the tab title on a successful query. This is used to ensure that the website has fully loaded before data is scraped off of the page. The website Indeed has a UK boolean, this boolean just says whether uk.indeed.com should be used or whether indeed.com should be used. Yes, theres a difference. 
 
 </details>
 
@@ -147,7 +148,8 @@ The **API** section relates to the configurations that can be made for the API. 
 <details>
 <summary><h3> Supported sites </h3></summary>
 
-* [Indeed.com](https://indeed.com/) (this is the US version)
+* [Indeed.com](https://indeed.com/) (US)
+* [Indeed.com](uk.indeed.com/)  (UK)
 * [TotalJobs](https://www.totaljobs.com/)
 
 </details>
