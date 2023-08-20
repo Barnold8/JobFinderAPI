@@ -96,7 +96,6 @@ class JobSite:
 
         #line below grabs instance object class name
         self.class_name = re.search(r"(?<=\.)(.*)(?=')",str(type(self))).group()
-         
         self.link = Link("https",self.class_name,"com",self.params)
 
 
