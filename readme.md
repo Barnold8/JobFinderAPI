@@ -12,9 +12,10 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
 <summary><h3>Requirements.</h3></summary>
 
 ```
-  Selenium 4.11.2 - Used to scrape websites for data
+  Python 3.10.8
+  Selenium 4.10.0 - Used to scrape websites for data
   undetected-chromedriver 3.5.2 - Used to get past basic cloudflare bot protection
-  Flask 2.3.2 - Used to facilitate API
+  Flask 2.2.2 - Used to facilitate API
   Flask-RESTful 0.3.10 - Used to help make API RESTful
 ```
 > Using  pip install -r requirements.txt will fix any dependency issues
