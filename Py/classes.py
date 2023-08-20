@@ -100,6 +100,7 @@ class JobSite:
         self.link = Link("https",self.class_name,"com",self.params)
 
 
+
     def makeRequest(self,href: Link, title:str,tag:str) -> WebElement:
         """
         @author: Barnold8
