@@ -1,0 +1,5 @@
+py=3.10.8
+selenium=4.10.0
+Flask=2.2.2
+Flask-RESTful=0.3.10
+undetected-chromedriver=3.5.2
