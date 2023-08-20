@@ -34,6 +34,8 @@ The job finder API is a mechanism to provide ease of use in regards to finding j
 
   By default, these variables are required. However, even though it is not recommended, these variables can become optional if you set the corresponding booleans to false in the configuration file provided. To see more information on this see [Configuration file](#config)
 
+  If the API returns an empty array, it means that the request went through to the job site, but no results were returned by it.
+
   **IMPORTANT: when sending a request to the api there must be an empty JSON body in there. I don't know why this is a thing, but it seems its the only way to make Flask RESTful happy**
   <details>
     
