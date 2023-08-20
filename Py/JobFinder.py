@@ -1,14 +1,15 @@
 from flask import Flask, render_template
 from flask_restful import reqparse, abort, Api, Resource
 import json
+import os
 import classes
+import constants
 
 
 app = Flask(__name__)
 api = Api(app)
 
-    
-settings = json.load(open("config/settings.json"))
+settings = json.load(open(constants.SETTINGS))
 
 sites = {
     "indeed": classes.Indeed,

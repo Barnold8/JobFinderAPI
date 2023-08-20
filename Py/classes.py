@@ -7,9 +7,9 @@ import undetected_chromedriver as uc
 import time
 import re
 import json 
+import constants
 
-
-settings = json.load(open("config/settings.json"))
+settings = json.load(open(constants.SETTINGS))
 
 class Link:
 
@@ -88,7 +88,7 @@ class JobSite:
     def __init__(self,site_params:list[str]) -> None:
 
         options = uc.ChromeOptions() 
-        options.headless = True 
+        # options.headless = True 
 
         self.browser = uc.Chrome(use_subprocess=True, options=options)
     
