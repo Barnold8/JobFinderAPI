@@ -114,6 +114,7 @@ The **sites** section relates to classes.py. Each job website that is supported 
 
 </details>
 
+<details>
 <summary><h4> The API section </h4></summary>
 
 The **API** section relates to the configurations that can be made for the API. These are basic things like the host or port. On top of this, there are a set of booleans that can be true or false. By default they are all true (this is recommended,except debug mode which shouldn't be on in production environments). The booleans work as follows
@@ -122,6 +123,7 @@ The **API** section relates to the configurations that can be made for the API. 
 * user_location_required - Job endpoint requires the variable "where" to be filled in
 * page_amount_required - Job endpoint requires the variable "pages" to be filled in
 * debug_mode - Allows for debug output in the console for the API server
+</details>
 
 </details>
 
@@ -134,6 +136,8 @@ The **API** section relates to the configurations that can be made for the API. 
 #### Why does the API sometimes have response times around 5s and sometimes 17?
 
 > The unfortunate truth is cloudflare. Web scraping can still be picked up by cloud flare and may subvert traffic for a few seconds. It may even be possible that the website being scraped has been updated and the web scraper can't get past the anti bot mechanisms, thus the way of life.
+
+#### Why does the API sometimes have response times around 5s and sometimes 17?
 
 </details>
 
