@@ -91,7 +91,7 @@ class JobSite:
         options = uc.ChromeOptions() 
         options.headless = True 
 
-        self.browser = uc.Chrome(use_subprocess=True, options=options)
+        self.browser = uc.Chrome(use_subprocess=True, options=options,driver_executable_path=constants.DRIVER)
     
         self.params = self.filter(site_params)
 
