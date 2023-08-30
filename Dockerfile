@@ -6,7 +6,7 @@ WORKDIR JobFinderAPI
 COPY . JobFinderAPI
 
 RUN apt update
-RUN apt upgrade
+
 
 RUN yes | apt install -f ./JobFinderAPI/config/chrome411.deb
 
